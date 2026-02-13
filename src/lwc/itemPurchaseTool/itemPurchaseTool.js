@@ -36,7 +36,6 @@ export default class ItemPurchaseTool extends LightningElement {
 
 
 
-    // Получаем accountId из URL
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         if (currentPageReference) {
@@ -44,7 +43,6 @@ export default class ItemPurchaseTool extends LightningElement {
         }
     }
 
-    // Получаем поля Account
     @wire(getRecord, { recordId: '$accountId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD] })
     account;
 
@@ -60,7 +58,6 @@ export default class ItemPurchaseTool extends LightningElement {
         return getFieldValue(this.account.data, INDUSTRY_FIELD);
     }
 
-    // Обработчики для полей фильтра
     handleFamilyChange(event) {
         this.family = event.detail.value;
     }
@@ -69,7 +66,6 @@ export default class ItemPurchaseTool extends LightningElement {
         this.type = event.detail.value;
     }
 
-    // Кнопка Filter
     handleFilter() {
         getFilteredItems({ familyFilter: this.family, typeFilter: this.type })
             .then(result => {

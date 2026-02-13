@@ -2,18 +2,17 @@
 public with sharing class ItemController {
 
     @AuraEnabled(Cacheable=true)
-    public static List<Product2> getItems(String familyFilter, String typeFilter) {
+    public static List<Item__c> getItems(String familyFilter, String typeFilter) {
+        String baseQuery = 'SELECT Id, Name, Family__c, Type__c, Price__c FROM Item__c WHERE Name != null';
 
-        String query = 'SELECT Id, Name, Family, Type__c FROM Product2 WHERE IsActive = true';
-
-        if (familyFilter != null && familyFilter != '') {
-            query += ' AND Family = :familyFilter';
+        if(familyFilter != null && familyFilter != '') {
+            baseQuery += ' AND Family__c = :familyFilter';
         }
 
-        if (typeFilter != null && typeFilter != '') {
-            query += ' AND Type__c = :typeFilter';
+        if(typeFilter != null && typeFilter != '') {
+            baseQuery += ' AND Type__c = :typeFilter';
         }
 
-        return Database.query(query);
+        return Database.query(baseQuery);
     }
 }
