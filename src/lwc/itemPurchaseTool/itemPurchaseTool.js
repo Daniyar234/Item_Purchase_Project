@@ -76,4 +76,8 @@ export default class ItemPurchaseTool extends LightningElement {
                 this.items = [];
             });
     }
+
+    get itemsCount() {
+        return this.items ? this.items.length : 0;
+    }
 }

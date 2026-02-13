@@ -29,7 +29,10 @@
             </lightning-combobox>
             <lightning-button label="Filter" onclick={handleFilter} class="slds-m-top_small"></lightning-button>
 
+
             <template if:true={items}>
+                <p>Showing {itemsCount} items</p>
+
                 <template for:each={items} for:item="item">
                     <p key={item.Id}>
                         {item.Name}, {item.Family__c}, {item.Type__c}
