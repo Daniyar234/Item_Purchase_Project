@@ -6,6 +6,8 @@ import { LightningElement, wire, track } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getFilteredItems from '@salesforce/apex/ItemController.getItems';
+import findItems from '@salesforce/apex/SearchItems.findItems';
+
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
@@ -79,5 +81,23 @@ export default class ItemPurchaseTool extends LightningElement {
 
     get itemsCount() {
         return this.items ? this.items.length : 0;
+    }
+
+    searchKey = '';
+    searchedItems = [];
+
+    handleKeyChange(event) {
+        this.searchKey = event.target.value;
+    }
+
+    handleSearch() {
+        findItems({ searchKey: this.searchKey })
+            .then(result => {
+                this.searchedItems = result;
+            })
+            .catch(error => {
+                console.error(error);
+                this.searchedItems = [];
+            });
     }
 }
