@@ -6,9 +6,41 @@
 <template>
     <lightning-card title="Item Purchase Tool">
         <div class="slds-p-around_medium">
+
+            <!-- Account info -->
             <p><strong>Account Name:</strong> {accName}</p>
             <p><strong>Account Number:</strong> {accNumber}</p>
             <p><strong>Industry:</strong> {accIndustry}</p>
+
+            <!-- Фильтр -->
+            <lightning-combobox
+                    name="family"
+                    label="Family"
+                    placeholder="--None--"
+                    options={familyOptions}
+                    value={family}
+                    onchange={handleFamilyChange}>
+            </lightning-combobox>
+
+            <lightning-combobox
+                    name="type"
+                    label="Type"
+                    placeholder="--None--"
+                    options={typeOptions}
+                    value={type}
+                    onchange={handleTypeChange}>
+            </lightning-combobox>
+            <lightning-button label="Filter" onclick={handleFilter} class="slds-m-top_small"></lightning-button>
+
+            <!-- Список отфильтрованных Items -->
+            <template if:true={items}>
+                <template for:each={items} for:item="item">
+                    <p key={item.Id}>
+                        {item.Name} — {item.Family__c} — {item.Type__c} — ${item.Price__c}
+                    </p>
+                </template>
+            </template>
+
         </div>
     </lightning-card>
 </template>
