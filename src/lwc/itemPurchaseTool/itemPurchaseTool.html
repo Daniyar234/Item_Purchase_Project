@@ -1,63 +1,111 @@
 <!--
  - Created by Dream on 13.02.2026.
  -->
-
 <template>
     <lightning-card title="Item Purchase Tool">
+
         <div class="slds-p-around_medium">
 
-            <p><strong>Account Name:</strong> {accName}</p>
-            <p><strong>Account Number:</strong> {accNumber}</p>
-            <p><strong>Industry:</strong> {accIndustry}</p>
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <lightning-button label="Create Item"></lightning-button>
 
-            <lightning-input
-                    label="Search"
-                    value={searchKey}
-                    onchange={handleKeyChange}>
-            </lightning-input>
+                <div>
+                    <p><strong>{accName}</strong></p>
+                    <p>{accNumber}</p>
+                    <p>{accIndustry}</p>
+                </div>
 
-            <lightning-button
-                    label="Search"
-                    onclick={handleSearch}>
-            </lightning-button>
+                <lightning-button label="Cart"></lightning-button>
+            </div>
 
-            <template if:true={searchedItems}>
-                <template for:each={searchedItems} for:item="item">
-                    <div key={item.Id}>
-                        <p>{item.Name}</p>
-                        <p>{item.Description__c}</p>
+            <div class="slds-m-bottom_medium">
+                <lightning-input
+                        label = "Search"
+                        name="searchKey"
+                        placeholder="Search"
+                        value={searchKey}
+                        oninput={handleChange} >
+                </lightning-input>
+
+                <lightning-button
+                        label="Search"
+                        onclick={applyFilters}
+                        class="slds-m-top_small">
+                </lightning-button>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+
+                <div class="slds-col slds-size_3-of-4">
+
+                    <div class="slds-grid slds-wrap slds-gutters">
+
+                        <template for:each={items} for:item="item">
+                            <div key={item.Id}
+                                 class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
+
+                                <div class="slds-box slds-text-align_center">
+                                    <h3>{item.Name}</h3>
+                                    <p>{item.Description__c}</p>
+
+                                    <div class="slds-m-top_small">
+                                        <lightning-button label="Details"
+                                                          class="slds-m-right_small">
+                                        </lightning-button>
+
+                                        <lightning-button label="Add"
+                                                          variant="brand">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </template>
+
                     </div>
-                </template>
-            </template>
 
-            <lightning-combobox
-                    name="family"
-                    label="Family"
-                    placeholder="--None--"
-                    options={familyOptions}
-                    value={family}
-                    onchange={handleFamilyChange}>
-            </lightning-combobox>
+                </div>
 
-            <lightning-combobox
-                    name="type"
-                    label="Type"
-                    placeholder="--None--"
-                    options={typeOptions}
-                    value={type}
-                    onchange={handleTypeChange}>
-            </lightning-combobox>
-            <lightning-button label="Filter" onclick={handleFilter} class="slds-m-top_small"></lightning-button>
+                <div class="slds-col slds-size_1-of-4">
 
+                    <div class="slds-box">
 
-            <template if:true={items}>
-                <p>Showing {itemsCount} items</p>
-                <template for:each={items} for:item="item">
-                    <p key={item.Id}>
-                        {item.Name}, {item.Family__c}, {item.Type__c}
-                    </p>
-                </template>
-            </template>
+                        <h3 class="slds-text-heading_small">Filters</h3>
+
+                        <lightning-combobox
+                                name="family"
+                                label="Family"
+                                placeholder="--None--"
+                                options={familyOptions}
+                                value={family}
+                                onchange={handleChange}>
+                        </lightning-combobox>
+
+                        <lightning-combobox
+                                name="type"
+                                label="Type"
+                                placeholder="--None--"
+                                options={typeOptions}
+                                value={type}
+                                onchange={handleChange}>
+                        </lightning-combobox>
+
+                        <lightning-button
+                                label="Filter"
+                                onclick={applyFilters}
+                                class="slds-m-top_small"
+                                variant="brand">
+                        </lightning-button>
+
+                        <p class="slds-m-top_small">
+                            Showing {itemsCount} items
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
     </lightning-card>

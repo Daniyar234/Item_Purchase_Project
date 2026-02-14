@@ -1,27 +1,27 @@
 /**
  * Created by Dream on 13.02.2026.
  */
-
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import getFilteredItems from '@salesforce/apex/ItemController.getItems';
-import findItems from '@salesforce/apex/SearchItems.findItems';
-
+import getItems from '@salesforce/apex/ItemController.getItems';
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
 import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 
 export default class ItemPurchaseTool extends LightningElement {
-    accountId;
 
-    @track items = [];
+    accountId;
+    items = [];
+
     family = '';
     type = '';
+    searchKey = '';
 
     /** @type {{label: string, value: string}[]} */
     familyOptions = [
+        {label: 'None', value: ''},
         { label: 'Hardware', value: 'Hardware' },
         { label: 'Software', value: 'Software' },
         { label: 'Services', value: 'Services' },
@@ -30,18 +30,17 @@ export default class ItemPurchaseTool extends LightningElement {
 
     /** @type {{label: string, value: string}[]} */
     typeOptions = [
+        {label: 'None', value: ''},
         { label: 'Product', value: 'Product' },
         { label: 'Subscription', value: 'Subscription' },
         { label: 'License', value: 'License' },
         { label: 'Warranty', value: 'Warranty' }
     ];
 
-
-
     @wire(CurrentPageReference)
-    getStateParameters(currentPageReference) {
-        if (currentPageReference) {
-            this.accountId = currentPageReference.state.c__accountId;
+    setCurrentPageReference(pageRef) {
+        if (pageRef) {
+            this.accountId = pageRef.state.c__accountId;
         }
     }
 
@@ -60,44 +59,26 @@ export default class ItemPurchaseTool extends LightningElement {
         return getFieldValue(this.account.data, INDUSTRY_FIELD);
     }
 
-    handleFamilyChange(event) {
-        this.family = event.detail.value;
-    }
-
-    handleTypeChange(event) {
-        this.type = event.detail.value;
-    }
-
-    handleFilter() {
-        getFilteredItems({ familyFilter: this.family, typeFilter: this.type })
-            .then(result => {
-                this.items = result;
-            })
-            .catch(error => {
-                console.error(error);
-                this.items = [];
-            });
-    }
-
     get itemsCount() {
-        return this.items ? this.items.length : 0;
+        return this.items.length;
     }
 
-    searchKey = '';
-    searchedItems = [];
-
-    handleKeyChange(event) {
-        this.searchKey = event.target.value;
+    handleChange(event) {
+        const field = event.target.name;
+        this[field] = event.detail ? event.detail.value : event.target.value;
     }
 
-    handleSearch() {
-        findItems({ searchKey: this.searchKey })
-            .then(result => {
-                this.searchedItems = result;
-            })
-            .catch(error => {
-                console.error(error);
-                this.searchedItems = [];
-            });
+    applyFilters() {
+        getItems({
+            familyFilter: this.family,
+            typeFilter: this.type,
+            searchKey: this.searchKey
+        })
+            .then(result => this.items = result)
+            .catch(() => this.items = []);
+    }
+
+    connectedCallback() {
+        this.applyFilters();
     }
 }
