@@ -2,7 +2,6 @@
  - Created by Dream on 14.02.2026.
  -->
 
-<!-- Cart Modal -->
 <template>
     <lightning-modal-header label="Your Cart"></lightning-modal-header>
 
@@ -33,5 +32,6 @@
 
     <lightning-modal-footer>
         <lightning-button label="Close" onclick={close}></lightning-button>
+        <lightning-button label="Checkout" variant="brand" onclick={handleCheckout}></lightning-button>
     </lightning-modal-footer>
 </template>

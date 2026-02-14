@@ -105,7 +105,7 @@ export default class ItemPurchaseTool extends LightningElement {
         const itemId = event.currentTarget.dataset.id;
         const selectedItem = this.items.find(i => i.Id === itemId);
 
-        if (selectedItem) {
+        if (selectedItem && selectedItem.Id) {
             this.cartItems = [...this.cartItems, selectedItem];
 
             this.dispatchEvent(new ShowToastEvent({
@@ -120,7 +120,8 @@ export default class ItemPurchaseTool extends LightningElement {
     async openCart() {
         await CartModal.open({
             size: 'medium',
-            cartItems: this.cartItems
+            cartItems: [...this.cartItems],
+            accountId: this.accountId
         });
     }
 }
