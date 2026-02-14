@@ -15,7 +15,7 @@
                     <p>{accIndustry}</p>
                 </div>
 
-                <lightning-button label="Cart"></lightning-button>
+                <lightning-button label="Cart" onclick={openCart}></lightning-button>
             </div>
 
             <div class="slds-m-bottom_medium">
@@ -56,8 +56,11 @@
                                                 class="slds-m-right_small">
                                         </lightning-button>
 
-                                        <lightning-button label="Add"
-                                                          variant="brand">
+                                        <lightning-button
+                                                label="Add"
+                                                variant="brand"
+                                                data-id={item.Id}
+                                                onclick={handleAddToCart}>
                                         </lightning-button>
                                     </div>
                                 </div>
