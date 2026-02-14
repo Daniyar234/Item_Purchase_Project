@@ -5,6 +5,7 @@ import { LightningElement, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import getItems from '@salesforce/apex/ItemController.getItems';
+import ItemDetailsModal from 'c/itemDetailsModal';
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
@@ -81,4 +82,17 @@ export default class ItemPurchaseTool extends LightningElement {
     connectedCallback() {
         this.applyFilters();
     }
+    async openDetails(event) {
+
+        const itemId = event.currentTarget.dataset.id;
+
+        const selectedItem = this.items.find(i => i.Id === itemId);
+
+        await ItemDetailsModal.open({
+            size: 'medium',
+            description: 'Item Details',
+            item: selectedItem
+        });
+    }
+
 }

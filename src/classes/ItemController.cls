@@ -6,7 +6,7 @@ public with sharing class ItemController {
             String searchKey) {
 
         String baseQuery =
-                'SELECT Id, Name, Description__c, Family__c, Type__c ' +
+                'SELECT Id, Name, Description__c, Family__c, Type__c, Image__c ' +
                         'FROM Item__c WHERE Name != null';
 
         if (!String.isBlank(familyFilter)) {

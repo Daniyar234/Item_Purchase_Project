@@ -49,8 +49,11 @@
                                     <p>{item.Description__c}</p>
 
                                     <div class="slds-m-top_small">
-                                        <lightning-button label="Details"
-                                                          class="slds-m-right_small">
+                                        <lightning-button
+                                                label="Details"
+                                                data-id={item.Id}
+                                                onclick={openDetails}
+                                                class="slds-m-right_small">
                                         </lightning-button>
 
                                         <lightning-button label="Add"

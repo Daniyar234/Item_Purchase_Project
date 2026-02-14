@@ -1,0 +1,44 @@
+<!--
+ - Created by Dream on 14.02.2026.
+ -->
+
+<!-- Item Details Modal -->
+<template>
+    <template if:true={item}>
+
+        <lightning-modal-header label={item.Name}>
+        </lightning-modal-header>
+
+        <lightning-modal-body>
+
+            <div class="slds-grid slds-gutters">
+
+                <div class="slds-col slds-size_1-of-2">
+
+                    <template if:true={item.Image__c}>
+                        <img src={item.Image__c}
+                             alt={item.Name}
+                             style="max-width:100%;" />
+                    </template>
+
+                </div>
+
+                <div class="slds-col slds-size_1-of-2">
+
+                    <p>{item.Description__c}</p>
+                    <p>Family: {item.Family__c}</p>
+                    <p>Type: {item.Type__c}</p>
+
+                </div>
+
+            </div>
+
+        </lightning-modal-body>
+
+        <lightning-modal-footer>
+            <lightning-button label="Close" onclick={close}>
+            </lightning-button>
+        </lightning-modal-footer>
+
+    </template>
+</template>
