@@ -15,9 +15,7 @@
                     </lightning-button>
                 </template>
                 <div>
-                    <p><strong>{accName}</strong></p>
-                    <p>{accNumber}</p>
-                    <p>{accIndustry}</p>
+                    <p><strong>{accName}</strong> {accNumber} {accIndustry}</p>
                 </div>
 
                 <lightning-button label="Cart" onclick={openCart}></lightning-button>
@@ -46,12 +44,18 @@
                     <div class="slds-grid slds-wrap slds-gutters">
 
                         <template for:each={items} for:item="item">
-                            <div key={item.Id}
-                                 class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
-
+                            <div key={item.Id} class="slds-col slds-size_1-of-2 slds-m-bottom_medium">
                                 <div class="slds-box slds-text-align_center">
                                     <h3>{item.Name}</h3>
+                                    <p>Testtttt</p>
                                     <p>{item.Description__c}</p>
+
+                                    <template if:true={item.Image__c}>
+                                        <p>
+                                            Image URL:
+                                            <a href={item.Image__c} target="_blank">{item.Image__c}</a>
+                                        </p>
+                                    </template>
 
                                     <div class="slds-m-top_small">
                                         <lightning-button
@@ -69,10 +73,8 @@
                                         </lightning-button>
                                     </div>
                                 </div>
-
                             </div>
                         </template>
-
                     </div>
 
                 </div>

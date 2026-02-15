@@ -164,4 +164,5 @@ export default class ItemPurchaseTool extends NavigationMixin(LightningElement) 
             this.applyFilters();
         }
     }
+
 }
