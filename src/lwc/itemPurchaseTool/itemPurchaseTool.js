@@ -8,13 +8,17 @@ import getItems from '@salesforce/apex/ItemController.getItems';
 import ItemDetailsModal from 'c/itemDetailsModal';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import CartModal from 'c/cartModal';
-
+import { NavigationMixin } from 'lightning/navigation';
+import CreateItemModal from 'c/createItemModal';
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import NUMBER_FIELD from '@salesforce/schema/Account.AccountNumber';
 import INDUSTRY_FIELD from '@salesforce/schema/Account.Industry';
 
-export default class ItemPurchaseTool extends LightningElement {
+import USER_ID from '@salesforce/user/Id';
+import IS_MANAGER_FIELD from '@salesforce/schema/User.IsManager__c';
+
+export default class ItemPurchaseTool extends NavigationMixin(LightningElement) {
 
     accountId;
     items = [];
@@ -52,6 +56,18 @@ export default class ItemPurchaseTool extends LightningElement {
 
     @wire(getRecord, {recordId: '$accountId', fields: [NAME_FIELD, NUMBER_FIELD, INDUSTRY_FIELD]})
     account;
+
+    @wire(getRecord, {
+
+        recordId: USER_ID,
+        fields: [IS_MANAGER_FIELD]
+    })
+    user;
+
+    get isManager() {
+        console.log('User data:', this.user);
+        return getFieldValue(this.user.data, IS_MANAGER_FIELD);
+    }
 
     get accName() {
         return getFieldValue(this.account.data, NAME_FIELD);
@@ -118,10 +134,34 @@ export default class ItemPurchaseTool extends LightningElement {
     }
 
     async openCart() {
-        await CartModal.open({
+        const purchaseId = await CartModal.open({
             size: 'medium',
             cartItems: [...this.cartItems],
             accountId: this.accountId
         });
+
+        if (purchaseId) {
+            /** @type {import('lightning/navigation').PageReference} */
+            const pageRef = {
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: purchaseId,
+                    objectApiName: 'Purchase__c',
+                    actionName: 'view'
+                }
+            };
+
+            this[NavigationMixin.Navigate](pageRef);
+        }
+    }
+
+    async openCreateItemModal() {
+        const newItemId = await CreateItemModal.open({
+            size: 'medium'
+        });
+
+        if (newItemId) {
+            this.applyFilters();
+        }
     }
 }

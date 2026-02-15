@@ -7,8 +7,13 @@
         <div class="slds-p-around_medium">
 
             <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
-                <lightning-button label="Create Item"></lightning-button>
-
+                <template if:true={isManager}>
+                    <lightning-button
+                            label="Create Item"
+                            onclick={openCreateItemModal}
+                            variant="brand">
+                    </lightning-button>
+                </template>
                 <div>
                     <p><strong>{accName}</strong></p>
                     <p>{accNumber}</p>

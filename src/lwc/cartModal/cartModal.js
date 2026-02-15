@@ -55,7 +55,9 @@ export default class CartModal extends LightningModal {
             );
 
             this.cartItems = [];
-            this.close();
+            this.close(purchaseId);
+
+
         } catch (error) {
             this.dispatchEvent(
                 new ShowToastEvent({
