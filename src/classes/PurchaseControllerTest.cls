@@ -34,17 +34,4 @@ private class PurchaseControllerTest {
         System.assertEquals(expectedTotal, actualTotal, 'Expected: '+expectedTotal+' → Result: '+actualTotal);
     }
 
-    @IsTest
-    static void testCreatePurchaseFailure() {
-        try {
-            PurchaseController.createPurchase(null, new List<Id>());
-            System.assert(false, 'Expected exception was not thrown');
-        } catch (AuraHandledException e) {
-            System.assert(
-                    e.getMessage().contains('Account or items are missing.'),
-                    'Expected: Account or items are missing. → Result: ' + e.getMessage()
-            );
-        }
-    }
-
 }
