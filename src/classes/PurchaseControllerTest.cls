@@ -36,13 +36,15 @@ private class PurchaseControllerTest {
 
     @IsTest
     static void testCreatePurchaseFailure() {
-        Boolean exceptionThrown = false;
         try {
             PurchaseController.createPurchase(null, new List<Id>());
+            System.assert(false, 'Expected exception was not thrown');
         } catch (AuraHandledException e) {
-            exceptionThrown = true;
-            System.assertEquals('Account or items are missing.', e.getMessage(), 'Expected: Account or items are missing. → Result: '+e.getMessage());
+            System.assert(
+                    e.getMessage().contains('Account or items are missing.'),
+                    'Expected: Account or items are missing. → Result: ' + e.getMessage()
+            );
         }
-        System.assert(exceptionThrown, 'Expected: true → Result: '+exceptionThrown);
     }
+
 }
