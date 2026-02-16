@@ -1,3 +1,82 @@
 /**
  * Created by Dream on 13.02.2026.
  */
+:host {
+    --card-border: 1px solid #c9c9c9;
+}
+
+.slds-box {
+    background-color: #f7f7f7;
+    border: var(--card-border);
+    border-radius: 4px;
+}
+
+.slds-box h3 {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.slds-box p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+lightning-button::part(button) {
+    border-radius: 4px;
+}
+
+lightning-button[variant="brand"]::part(button) {
+    background-color: #e0e0e0;
+    border: 1px solid #999;
+    color: #000;
+}
+
+lightning-button:not([variant])::part(button) {
+    border: 1px solid #999;
+    background-color: #fff;
+}
+
+.slds-col.slds-size_1-of-4 .slds-box {
+    background-color: #f2f2f2;
+    border: var(--card-border);
+}
+
+.slds-text-heading_small {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.slds-m-bottom_medium lightning-input {
+    margin-bottom: 8px;
+}
+
+.slds-grid_align-spread {
+    padding-bottom: 16px;
+    border-bottom: var(--card-border);
+}
+
+.slds-size_1-of-2 {
+    padding: 8px;
+}
+.account-header {
+    display: flex;
+    gap: 28px;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.acc-name {
+    font-size: 22px;
+}
+
+.acc-number {
+    font-size: 20px;
+}
+
+.acc-industry {
+    font-size: 20px;
+}

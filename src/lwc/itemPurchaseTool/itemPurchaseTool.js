@@ -86,19 +86,28 @@ export default class ItemPurchaseTool extends NavigationMixin(LightningElement) 
     }
 
     handleChange(event) {
-        const field = event.target.name;
-        this[field] = event.detail ? event.detail.value : event.target.value;
+        this[event.target.name] = event.target.value;
     }
 
     applyFilters() {
+        console.log('SEARCH CLICKED');
+        console.log('searchKey = ', this.searchKey);
+
         getItems({
             familyFilter: this.family,
             typeFilter: this.type,
             searchKey: this.searchKey
         })
-            .then(result => this.items = result)
-            .catch(() => this.items = []);
+            .then(result => {
+                console.log('RESULT FROM APEX', result);
+                this.items = result;
+            })
+            .catch(error => {
+                console.error('ERROR', error);
+                this.items = [];
+            });
     }
+
 
     connectedCallback() {
         this.applyFilters();

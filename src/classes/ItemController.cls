@@ -1,6 +1,6 @@
 public with sharing class ItemController {
 
-    @AuraEnabled(Cacheable=true)
+    @AuraEnabled
     public static List<Item__c> getItems(String familyFilter,
             String typeFilter,
             String searchKey) {
@@ -17,14 +17,31 @@ public with sharing class ItemController {
             baseQuery += ' AND Type__c = :typeFilter';
         }
 
+        List<Item__c> items = Database.query(baseQuery);
+
         if (!String.isBlank(searchKey)) {
-            String escapedSearch = String.escapeSingleQuotes(searchKey);
-            baseQuery +=
-                    ' AND (Name LIKE \'%' + escapedSearch + '%\' ' +
-                            'OR Description__c LIKE \'%' + escapedSearch + '%\')';
+
+            String lowerSearch = searchKey.toLowerCase();
+            List<Item__c> filtered = new List<Item__c>();
+
+            for (Item__c item : items) {
+
+                Boolean nameMatch =
+                        item.Name != null &&
+                                item.Name.toLowerCase().contains(lowerSearch);
+
+                Boolean descMatch =
+                        item.Description__c != null &&
+                                item.Description__c.toLowerCase().contains(lowerSearch);
+
+                if (nameMatch || descMatch) {
+                    filtered.add(item);
+                }
+            }
+
+            return filtered;
         }
 
-
-        return Database.query(baseQuery);
+        return items;
     }
 }

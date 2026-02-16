@@ -14,8 +14,10 @@
                             variant="brand">
                     </lightning-button>
                 </template>
-                <div>
-                    <p><strong>{accName}</strong> {accNumber} {accIndustry}</p>
+                <div class="account-header">
+                    <span class="acc-name">{accName}</span>
+                    <span class="acc-number">{accNumber}</span>
+                    <span class="acc-industry">{accIndustry}</span>
                 </div>
 
                 <lightning-button label="Cart" onclick={openCart}></lightning-button>
@@ -23,11 +25,11 @@
 
             <div class="slds-m-bottom_medium">
                 <lightning-input
-                        label = "Search"
+                        label="Search"
                         name="searchKey"
                         placeholder="Search"
                         value={searchKey}
-                        oninput={handleChange} >
+                        onchange={handleChange}>
                 </lightning-input>
 
                 <lightning-button
